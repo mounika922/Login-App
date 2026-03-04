@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
-const Login = () => {
-
-  const navigate = useNavigate();
+function Login() {
 
   const [username, setUsername] = useState(
     localStorage.getItem("username") || ""
@@ -31,22 +28,26 @@ const Login = () => {
 
         localStorage.setItem("username", username);
 
-        navigate("/welcome");
+        window.location.href = "/welcome";
 
       }
 
     } catch (err) {
 
-      setError("Invalid username or password");
+      setError(
+        err.response?.data?.message ||
+        "Login failed"
+      );
 
     }
+
   };
 
   return (
 
     <div style={{ textAlign: "center", marginTop: "100px" }}>
 
-      <h2>Login Page</h2>
+      <h2>Login</h2>
 
       <form onSubmit={handleLogin}>
 
@@ -59,8 +60,7 @@ const Login = () => {
           }
         />
 
-        <br />
-        <br />
+        <br /><br />
 
         <input
           type="password"
@@ -71,8 +71,7 @@ const Login = () => {
           }
         />
 
-        <br />
-        <br />
+        <br /><br />
 
         <button type="submit">
           Login
@@ -89,6 +88,6 @@ const Login = () => {
     </div>
 
   );
-};
+}
 
 export default Login;
